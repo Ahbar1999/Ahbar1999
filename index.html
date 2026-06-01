@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Ahbar1999 — Rust Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Syne:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg:       #0b0b0c;
+    --surface:  #111114;
+    --border:   #1e1e24;
+    --rust:     #e07b39;
+    --rust-dim: #a0551e;
+    --text:     #d4d0c8;
+    --muted:    #5a5a68;
+    --white:    #f0ece4;
+    --green:    #4caf7d;
+    --red:      #e05555;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Syne', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 1.7;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* scanline overlay */
+  body::before {
+    content: '';
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,.04) 2px,
+      rgba(0,0,0,.04) 4px
+    );
+    z-index: 9999;
+  }
+
+  a { color: var(--rust); text-decoration: none; }
+  a:hover { color: var(--white); }
+
+  /* layout */
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+
+  /* top bar */
+  .topbar {
+    border-bottom: 1px solid var(--border);
+    padding: 14px 0;
+    position: sticky;
+    top: 0;
+    background: rgba(11,11,12,.92);
+    backdrop-filter: blur(8px);
+    z-index: 100;
+  }
+  .topbar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -.01em;
+  }
+  .logo span { color: var(--rust); }
+  .nav { display: flex; gap: 24px; }
+  .nav a { color: var(--muted); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; transition: color .15s; }
+  .nav a:hover { color: var(--rust); }
+
+  /* hero */
+  .hero {
+    padding: 80px 0 60px;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-label {
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .hero-label::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 1px;
+    background: var(--rust);
+  }
+  .hero h1 {
+    font-family: var(--sans);
+    font-size: clamp(32px, 6vw, 52px);
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.1;
+    letter-spacing: -.02em;
+    margin-bottom: 20px;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--rust);
+  }
+  .hero-sub {
+    color: var(--muted);
+    max-width: 480px;
+    font-size: 13px;
+  }
+  .hero-sub code {
+    color: var(--text);
+    background: var(--surface);
+    padding: 1px 6px;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+  }
+  .cta-row { margin-top: 36px; display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 18px;
+    border-radius: 4px;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    transition: all .15s;
+    border: 1px solid;
+    cursor: pointer;
+  }
+  .btn-primary {
+    background: var(--rust);
+    border-color: var(--rust);
+    color: var(--bg);
+    font-weight: 600;
+  }
+  .btn-primary:hover { background: var(--white); border-color: var(--white); color: var(--bg); }
+  .btn-ghost {
+    background: transparent;
+    border-color: var(--border);
+    color: var(--muted);
+  }
+  .btn-ghost:hover { border-color: var(--rust); color: var(--rust); }
+
+  /* terminal block */
+  .terminal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 40px 0 0;
+  }
+  .terminal-bar {
+    background: #18181c;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-r { background: #ff5f57; }
+  .dot-y { background: #febc2e; }
+  .dot-g { background: #28c840; }
+  .terminal-file {
+    margin-left: 12px;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: .04em;
+  }
+  .terminal-body {
+    padding: 20px 24px;
+    font-size: 12.5px;
+    line-height: 1.9;
+  }
+  .t-comment { color: var(--muted); }
+  .t-kw     { color: #c792ea; }
+  .t-type   { color: #82aaff; }
+  .t-str    { color: #c3e88d; }
+  .t-val    { color: var(--rust); }
+  .t-fn     { color: #82aaff; }
+  .t-punct  { color: var(--muted); }
+
+  /* section */
+  section { padding: 60px 0; border-bottom: 1px solid var(--border); }
+  .section-title {
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* project cards */
+  .projects-grid { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+  .project-card {
+    background: var(--surface);
+    padding: 22px 24px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    gap: 16px;
+    transition: background .12s;
+    cursor: default;
+  }
+  .project-card:hover { background: #161619; }
+  .project-name {
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .project-name a { color: inherit; }
+  .project-name a:hover { color: var(--rust); }
+  .project-desc { font-size: 12.5px; color: var(--muted); max-width: 520px; }
+  .project-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
+  .tag {
+    font-size: 10px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 3px;
+    background: rgba(224,123,57,.1);
+    color: var(--rust-dim);
+    border: 1px solid rgba(224,123,57,.2);
+  }
+  .project-meta { text-align: right; white-space: nowrap; }
+  .stars { font-size: 12px; color: var(--muted); }
+  .stars span { color: var(--text); }
+
+  /* placeholder row for projects loaded from GitHub */
+  .loading-row {
+    background: var(--surface);
+    padding: 22px 24px;
+    color: var(--muted);
+    font-size: 12px;
+  }
+  .cursor { display: inline-block; animation: blink 1s step-start infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* about / skills grid */
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+  .skill-cell {
+    background: var(--surface);
+    padding: 18px 20px;
+  }
+  .skill-cell-label { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .skill-cell-items { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    font-size: 11px;
+    padding: 3px 9px;
+    border-radius: 3px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+
+  /* footer */
+  footer {
+    padding: 40px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--muted);
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  footer a { color: var(--muted); }
+  footer a:hover { color: var(--rust); }
+  .ferris { font-size: 18px; display: inline-block; animation: wiggle 4s ease-in-out infinite; }
+  @keyframes wiggle {
+    0%,100% { transform: rotate(0deg); }
+    20%      { transform: rotate(-8deg); }
+    40%      { transform: rotate(8deg); }
+    60%      { transform: rotate(-4deg); }
+    80%      { transform: rotate(4deg); }
+  }
+
+  @media (max-width: 520px) {
+    .project-card { grid-template-columns: 1fr; }
+    .project-meta { text-align: left; }
+    .nav { gap: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="topbar">
+  <div class="wrap topbar-inner">
+    <div class="logo">your<span>_username</span></div>
+    <div class="nav">
+      <a href="#projects">projects</a>
+      <a href="#stack">stack</a>
+      <a href="https://github.com/Ahbar1999" target="_blank" rel="noopener">github ↗</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <div class="wrap">
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-label">systems programmer</div>
+      <h1>Building fast things<br/>in <em>Rust</em>.</h1>
+      <p class="hero-sub">
+        I write <code>unsafe</code>-free Rust (mostly).
+        Interested in compilers, async runtimes, and tools that get out of your way.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://github.com/Ahbar1999?tab=repositories&language=rust" target="_blank">
+          🦀 all rust repos
+        </a>
+        <a class="btn btn-ghost" href="mailto:you@example.com">
+          contact
+        </a>
+      </div>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="dot dot-r"></div>
+          <div class="dot dot-y"></div>
+          <div class="dot dot-g"></div>
+          <span class="terminal-file">about.rs</span>
+        </div>
+        <div class="terminal-body">
+          <div><span class="t-comment">// who am i</span></div>
+          <div><span class="t-kw">struct</span> <span class="t-type">Developer</span> <span class="t-punct">{</span></div>
+          <div>&nbsp;&nbsp;<span class="t-type">name</span><span class="t-punct">:</span>&nbsp;<span class="t-str">"Ahbar1999"</span><span class="t-punct">,</span></div>
+          <div>&nbsp;&nbsp;<span class="t-type">focus</span><span class="t-punct">:</span>&nbsp;<span class="t-str">"systems &amp; cli tooling"</span><span class="t-punct">,</span></div>
+          <div>&nbsp;&nbsp;<span class="t-type">language</span><span class="t-punct">:</span>&nbsp;<span class="t-val">Language::Rust</span><span class="t-punct">,</span></div>
+          <div>&nbsp;&nbsp;<span class="t-type">open_to</span><span class="t-punct">:</span>&nbsp;<span class="t-val">true</span><span class="t-punct">,</span></div>
+          <div><span class="t-punct">}</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Projects -->
+    <section id="projects">
+      <div class="section-title">projects</div>
+
+      <div class="projects-grid" id="projects-grid">
+        <!-- populated by JS below; falls back to static examples -->
+        <div class="loading-row">
+          fetching repos<span class="cursor">_</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stack -->
+    <section id="stack">
+      <div class="section-title">stack</div>
+      <div class="skills-grid">
+        <div class="skill-cell">
+          <div class="skill-cell-label">async</div>
+          <div class="skill-cell-items">
+            <span class="chip">tokio</span>
+            <span class="chip">async-std</span>
+          </div>
+        </div>
+        <div class="skill-cell">
+          <div class="skill-cell-label">web</div>
+          <div class="skill-cell-items">
+            <span class="chip">axum</span>
+            <span class="chip">actix-web</span>
+            <span class="chip">reqwest</span>
+          </div>
+        </div>
+        <div class="skill-cell">
+          <div class="skill-cell-label">serialization</div>
+          <div class="skill-cell-items">
+            <span class="chip">serde</span>
+            <span class="chip">bincode</span>
+          </div>
+        </div>
+        <div class="skill-cell">
+          <div class="skill-cell-label">cli</div>
+          <div class="skill-cell-items">
+            <span class="chip">clap</span>
+            <span class="chip">ratatui</span>
+          </div>
+        </div>
+        <div class="skill-cell">
+          <div class="skill-cell-label">database</div>
+          <div class="skill-cell-items">
+            <span class="chip">sqlx</span>
+            <span class="chip">diesel</span>
+          </div>
+        </div>
+        <div class="skill-cell">
+          <div class="skill-cell-label">toolchain</div>
+          <div class="skill-cell-items">
+            <span class="chip">cargo</span>
+            <span class="chip">clippy</span>
+            <span class="chip">miri</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<div class="wrap">
+  <footer>
+    <span><span class="ferris">🦀</span> &nbsp;built with love &amp; borrow checker pain</span>
+    <span>
+      <a href="https://github.com/Ahbar1999" target="_blank" rel="noopener">github</a>
+      &nbsp;·&nbsp;
+      <a href="mailto:you@example.com">email</a>
+    </span>
+  </footer>
+</div>
+
+<script>
+(async () => {
+  const USERNAME = "Ahbar1999";
+  const grid = document.getElementById("projects-grid");
+
+  try {
+    const res = await fetch(
+      `https://api.github.com/users/${USERNAME}/repos?per_page=100&sort=updated`
+    );
+    if (!res.ok) throw new Error("fetch failed");
+    const repos = await res.json();
+
+    const rust = repos
+      .filter(r => r.language === "Rust" && !r.fork)
+      .sort((a, b) => (b.stargazers_count || 0) - (a.stargazers_count || 0))
+      .slice(0, 8);
+
+    if (rust.length === 0) {
+      grid.innerHTML = `<div class="loading-row" style="color:var(--muted)">no public rust repos yet</div>`;
+      return;
+    }
+
+    grid.innerHTML = rust.map(r => {
+      const desc  = r.description ? r.description : "<em>no description</em>";
+      const stars = r.stargazers_count || 0;
+      const topics = (r.topics || []).slice(0, 4);
+      const tags = ['rust', ...topics]
+        .map(t => `<span class="tag">${t}</span>`).join('');
+
+      return `
+        <div class="project-card">
+          <div>
+            <div class="project-name">
+              <a href="${r.html_url}" target="_blank" rel="noopener">${r.name}</a>
+            </div>
+            <div class="project-desc">${desc}</div>
+            <div class="project-tags">${tags}</div>
+          </div>
+          <div class="project-meta">
+            <div class="stars">⭐ <span>${stars}</span></div>
+          </div>
+        </div>`;
+    }).join('');
+
+  } catch {
+    // fallback: show placeholder cards when running without a real username
+    const placeholders = [
+      { name: "example-cli",    desc: "a fast command-line tool built with clap",       stars: 42 },
+      { name: "async-server",   desc: "lightweight http server powered by axum + tokio", stars: 17 },
+      { name: "serde-thing",    desc: "custom serde deserializer for a binary format",   stars: 9  },
+    ];
+    grid.innerHTML = placeholders.map(p => `
+      <div class="project-card">
+        <div>
+          <div class="project-name">
+            <a href="https://github.com/${USERNAME}/${p.name}" target="_blank" rel="noopener">${p.name}</a>
+          </div>
+          <div class="project-desc">${p.desc}</div>
+          <div class="project-tags"><span class="tag">rust</span></div>
+        </div>
+        <div class="project-meta">
+          <div class="stars">⭐ <span>${p.stars}</span></div>
+        </div>
+      </div>`).join('');
+  }
+})();
+</script>
+
+</body>
+</html>

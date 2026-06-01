@@ -28,10 +28,14 @@
 <!-- RUST-PROJECTS:START — auto-updated via GitHub Action -->
 | repo | description | stars |
 |------|-------------|-------|
-| [**crate-name**](https://github.com/Ahbar1999/crate-name) | short punchy description of what it does | ⭐ 0 |
+|[**lru-cache-rs**](https://github.com/Ahbar1999/lru-cache-rs) | Leetcode #146 with custom Doubly Linked List | ⭐ 0 |
+|[**difflib-rs**](https://github.com/Ahbar1999/difflib-rs) | A partial rust port of python's difflib | ⭐ 0 |
+|[**task-scheduler**](https://github.com/Ahbar1999/type-safe-task-scheduler) | A type safe task scheduler in rust | ⭐ 0 |
 <!-- RUST-PROJECTS:END -->
 
-> *This table updates automatically — see [`.github/workflows/update-rust-projects.yml`](.github/workflows/update-rust-projects.yml)*
+<!--  
+> *This table updates automatically — see [`.github/workflows/update-rust-projects.yml`](.github/workflows/update-rust-projects.yml)* 
+-->
 
 <br/>
 
@@ -40,7 +44,7 @@
 ```rust
 let stack = Stack {
     language:   "Rust",
-    paradigms:  &["systems", "async", "zero-copy"],
+    paradigms:  &["systems", "memory safety", "async", "zero-copy"],
     tools:      &["cargo", "tokio", "axum", "serde", "clap"],
     interests:  &["compilers", "networking", "cli tooling", "wasm"],
 };
