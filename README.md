@@ -7,7 +7,7 @@
 █▀▄ █▄█ ▄█ ░█░
 ```
 
-**systems programmer. memory safe. zero cost.**
+**high performance. low-level. systems.**
 
 [![Rust](https://img.shields.io/badge/rust-%23000000.svg?style=flat&logo=rust&logoColor=%23E07B39)](https://www.rust-lang.org/)
 &nbsp;
