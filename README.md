@@ -29,6 +29,7 @@
 | repo | description | stars |
 |------|-------------|-------|
 | [**rusty-redis**](https://github.com/Ahbar1999/rusty-redis) | A simplified async redis clone in rust | ⭐ 1 |
+| [**codecrafters-interpreter-rust**](https://github.com/Ahbar1999/codecrafters-interpreter-rust) | — | ⭐ 0 |
 | [**low-level-rust**](https://github.com/Ahbar1999/low-level-rust) | small programs demonstrating low level systems concepts like concurrency, distributed systems etc. | ⭐ 0 |
 | [**cube-rs**](https://github.com/Ahbar1999/cube-rs) | implementation of a simple container orchestration service to learn internals of tools like kubernetes, all of it in rust ofcourse, without any ai slop | ⭐ 0 |
 | [**lru-cache-rs**](https://github.com/Ahbar1999/lru-cache-rs) | solution to leetcode #146; using rust; with custom reference counted Doubly Linked List | ⭐ 0 |
@@ -37,7 +38,6 @@
 | [**type-safe-task-scheduler**](https://github.com/Ahbar1999/type-safe-task-scheduler) | — | ⭐ 0 |
 | [**macrokata**](https://github.com/Ahbar1999/macrokata) | Learn Macros In Rust (with my solutions) | ⭐ 0 |
 | [**msft-rust-training-sols**](https://github.com/Ahbar1999/msft-rust-training-sols) | solutions to the newly launched msft's rust training series | ⭐ 0 |
-| [**data-structures-rs**](https://github.com/Ahbar1999/data-structures-rs) | Implementation of various commonly used data structures in Rust for studying ownership and borrowing rules | ⭐ 0 |
 <!-- RUST-PROJECTS:END -->
 
 <!--  
