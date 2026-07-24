@@ -29,8 +29,8 @@
 | repo | description | stars |
 |------|-------------|-------|
 | [**rusty-redis**](https://github.com/Ahbar1999/rusty-redis) | A simplified async redis clone in rust | ⭐ 1 |
-| [**codecrafters-interpreter-rust**](https://github.com/Ahbar1999/codecrafters-interpreter-rust) | — | ⭐ 0 |
 | [**low-level-rust**](https://github.com/Ahbar1999/low-level-rust) | small programs demonstrating low level systems concepts like concurrency, distributed systems etc. | ⭐ 0 |
+| [**codecrafters-interpreter-rust**](https://github.com/Ahbar1999/codecrafters-interpreter-rust) | — | ⭐ 0 |
 | [**cube-rs**](https://github.com/Ahbar1999/cube-rs) | implementation of a simple container orchestration service to learn internals of tools like kubernetes, all of it in rust ofcourse, without any ai slop | ⭐ 0 |
 | [**lru-cache-rs**](https://github.com/Ahbar1999/lru-cache-rs) | solution to leetcode #146; using rust; with custom reference counted Doubly Linked List | ⭐ 0 |
 | [**jsmn-rs**](https://github.com/Ahbar1999/jsmn-rs) | rust port of 'jsmn' json parser | ⭐ 0 |
